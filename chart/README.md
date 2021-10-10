@@ -1,6 +1,6 @@
 IMPORTANT! App has no it's own public registry so Docker image should be build locally and pushed to your own registry
 ```
-docker build -t app:latest .
+docker build -t app:0.0.1 .
 ```
 
 then change Chart.yaml accordingly:
