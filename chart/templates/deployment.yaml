@@ -1,0 +1,58 @@
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  labels:
+    app: {{ template "app.name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+  name: {{ template "app.name" . }}
+spec:
+  replicas: {{ default 1 .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ template "app.name" . }}
+      release: "{{ .Release.Name }}"
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: "RollingUpdate"
+  template:
+    metadata:
+      labels:
+        app: {{ template "app.name" . }}
+        release: "{{ .Release.Name }}"
+    spec:
+      serviceAccountName: app_name
+      imagePullSecrets:
+        - name: regsecret
+      restartPolicy: Always
+      containers:
+        - name: {{ template "app.name" }}
+          env:
+          {{- range $key, $value := .Values.env }}
+          {{ printf "- name: %s" $key }}
+          {{ printf "  value: \"%s\"" $value -}}
+          {{- end }}
+          image: {{ .Values.image | quote }}
+          imagePullPolicy: Always
+          command: ["/usr/local/bin/python3"]
+          args: ["/opt/app/app.py"]
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          ports:
+            - containerPort: {{ default 5000 .Values.service.port }}
+              protocol: "TCP"
+              name: {{ template "app.name" }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ template "app.name" }}
+            timeoutSeconds: 1
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: {{ template "app.name" }}
+            timeoutSeconds: 1
+            failureThreshold: 3

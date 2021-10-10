@@ -1,0 +1,22 @@
+---
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  annotations:
+    {{ if eq .Values.service.type "LoadBalancer" }}service.beta.kubernetes.io/external-traffic: "OnlyLocal"{{ end }}
+  labels:
+    app: {{ template "appK8sName.name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+  name: {{ template "appK8sName.name" . }}
+spec:
+  selector:
+    app: {{ template "appK8sName.name" . }}
+    release: "{{ .Release.Name }}"
+  ports:
+    - protocol: "TCP"
+      name: {{ template "appK8sName.name" . }}
+      port: {{ default 5000 .Values.service.port }}
+      targetPort: {{ default 5000 .Values.service.port }}
+  type: {{ default "ClusterIP" .Values.service.type }}

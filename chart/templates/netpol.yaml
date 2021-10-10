@@ -1,0 +1,21 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ template "appK8sName.netPolName" . }}
+spec:
+  ingress:
+  - {}
+  egress:
+  - ports:
+    - port: 25
+      protocol: TCP
+    to:
+    - ipBlock:
+        cidr: 10.10.0.1/32
+  podSelector:
+    matchLabels:
+      app: {{ template "appK8sName.name" . }}
+  policyTypes:
+  - ingress
+  - egress
