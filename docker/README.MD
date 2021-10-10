@@ -21,7 +21,7 @@ curl http://<IP>:5000/companies
 
 # Get statistics for time of query execution time in prometheus format
 ```
-curl http://192.168.95.50:8000/companies
+curl http://192.168.95.50:8000/metrics
 # HELP python_gc_objects_collected_total Objects collected during gc
 # TYPE python_gc_objects_collected_total counter
 python_gc_objects_collected_total{generation="0"} 18.0
