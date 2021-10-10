@@ -1,4 +1,4 @@
-# app
+## App has no it's own registry so Docker image should be build loaclly
 
 ## Installation
 
