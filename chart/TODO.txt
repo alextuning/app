@@ -1,0 +1,2 @@
+## Install gatekeeper, write a constraint and constraint templace to check conainer is ruuning as root
+## https://github.com/ritazh/psp-gatekeeper-policies/tree/master/privileged-containers
