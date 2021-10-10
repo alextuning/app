@@ -1,9 +1,9 @@
-IMPORTANT! App has no it's own registry so Docker image should be build locally
+IMPORTANT! App has no it's own public registry so Docker image should be build locally and pushed to your own registry
 ```
 docker build -t app:latest .
 ```
 
-and chart yaml should be edit accordingly:
+then change Chart.yaml accordingly:
 
 ```
 vi Chart.yaml
