@@ -19,7 +19,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: "{{ .Release.Name }}"
-  namespace: gatekeeper-system
+  namespace: test
 roleRef:
   kind: ClusterRole
   name: "{{ .Release.Name }}"
