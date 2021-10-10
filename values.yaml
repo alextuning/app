@@ -1,0 +1,28 @@
+---
+appName: "app"
+
+image: "github.com:4567/sinchinov/app:0.0.1"
+
+netpol:
+  name: app-net-pol
+
+env:
+  LANG: en_US.UTF-8
+  TZ: Asia/Novosibirsk
+
+service:
+  type: "ClusterIP"
+  port: 8000 
+  loadBalancer:
+    allowedIps:
+      - "0.0.0.0/0"
+
+replicas: 1
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "512Mi"
+  limits:
+    cpu: 1
+    memory: "1G"
